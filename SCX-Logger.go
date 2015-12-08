@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	"os"
+	"time"
 )
 
 func log(w http.ResponseWriter, r *http.Request) {
@@ -11,7 +13,14 @@ func log(w http.ResponseWriter, r *http.Request) {
 	body, _ := ioutil.ReadAll(r.Body)
 	var bodyText = string(body)
 	fmt.Println(bodyText)
-	ioutil.WriteFile("SCX_Log.txt", []byte(bodyText), 0644)
+
+	logfile, _ := os.OpenFile("SCX_Log.txt", os.O_APPEND|os.O_CREATE, 0600)
+
+	var now = time.Now()
+
+	logfile.WriteString(now.String() + ": " + bodyText + "\r\n")
+
+	logfile.Close()
 }
 
 func main() {
