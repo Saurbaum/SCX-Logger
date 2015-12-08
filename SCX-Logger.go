@@ -14,7 +14,7 @@ func log(w http.ResponseWriter, r *http.Request) {
 	var bodyText = string(body)
 	fmt.Println(bodyText)
 
-	logfile, _ := os.OpenFile("SCX_Log.txt", os.O_APPEND|os.O_CREATE, 0600)
+	logfile, _ := os.OpenFile("SCX_Log.txt", os.O_APPEND|os.O_CREATE|os.O_RDWR, 0600)
 
 	var now = time.Now()
 
