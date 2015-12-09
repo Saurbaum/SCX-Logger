@@ -14,13 +14,17 @@ func log(w http.ResponseWriter, r *http.Request) {
 	var bodyText = string(body)
 	fmt.Println(bodyText)
 
-	logfile, _ := os.OpenFile("SCX_Log.txt", os.O_APPEND|os.O_CREATE|os.O_RDWR, 0600)
+	logfile, err := os.OpenFile("SCX_Log.txt", os.O_APPEND|os.O_CREATE|os.O_RDWR, 0600)
 
-	var now = time.Now()
+	if err != nil {
+		fmt.Println(err.Error())
+	} else {
+		var now = time.Now()
 
-	logfile.WriteString(now.String() + ": " + bodyText + "\r\n")
+		logfile.WriteString(now.String() + ": " + bodyText + "\r\n")
 
-	logfile.Close()
+		logfile.Close()
+	}
 }
 
 func main() {
